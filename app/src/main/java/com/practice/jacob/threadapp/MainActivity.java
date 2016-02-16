@@ -22,6 +22,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         fileName = "numbers.txt";
         file = new File(this.getFilesDir(), fileName);
+        myList = (ListView) (findViewById(R.id.listView));
+        myAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1);
+        myList.setAdapter(myAdapter);
     }
 
     public void createFile(View v) {
@@ -34,20 +37,15 @@ public class MainActivity extends AppCompatActivity {
             Thread.sleep(250);
         } catch (InterruptedException ex){
             System.out.println("I caught this interrupted exception " + ex);
-        }
-        catch (Exception e) {
-            System.out.println("I caught this exception " + e);
+        } catch (IOException e) {
+            System.out.println("I caught this IOException " + e);
         }
     }
 
-    public void loadFile(View v){
-        ListView myList = (ListView)(findViewById(R.id.listView));
-        myAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1);
-        myList.setAdapter(myAdapter);
+    public void loadFile(View v) {
         String line;
-
         try (BufferedReader in = new BufferedReader(new FileReader(file))){
-            while ((line = in.readLine()) != null){
+            while ((line = in.readLine())!= null) {
                 myAdapter.add(line);
             }
             in.close();
@@ -69,4 +67,5 @@ public class MainActivity extends AppCompatActivity {
     private String fileName;
     private File file;
     private ArrayAdapter myAdapter;
+    private ListView myList;
 }
